@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Invisible Hack Terminal</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: black;
+      color: #00ff00;
+      font-family: "Courier New", Courier, monospace;
+      overflow: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .terminal {
+      position: relative;
+      max-width: 800px;
+      margin: 100px auto;
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 30px;
+      border: 2px solid #00ff00;
+      box-shadow: 0 0 20px #00ff00;
+    }
+
+    input, button {
+      background-color: black;
+      color: #00FF00;
+      border: 1px solid #00FF00;
+      padding: 10px;
+      font-family: "Courier New";
+      font-size: 16px;
+      margin-top: 15px;
+    }
+
+    #output {
+      white-space: pre-wrap;
+      line-height: 1.6;
+      font-size: 17px;
+    }
+
+    .credit {
+      margin-top: 30px;
+      text-align: center;
+      color: #00ff00;
+      font-size: 16px;
+      opacity: 0.8;
+      animation: flicker 1.5s infinite alternate;
+      border-top: 1px dashed #00ff00;
+      padding-top: 10px;
+    }
+
+    @keyframes flicker {
+      from { opacity: 0.6; }
+      to   { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="terminal">
+  <div id="output">[Crasher whatsapp ] Enter Target Number To Attack :</div>
+
+  <div class="input-line">
+    <input type="text" id="targetNumber" placeholder="08xxxxxxxxxx">
+    <button onclick="submitTarget()">Attack</button>
+  </div>
+
+  <div class="credit">
+    🔧 created by: <strong>Aby Putra And Tim Pajri,bimas</strong>
+  </div>
+</div>
+
+<audio id="boongSound" src="ssstik.io_1753962420040.mp3"></audio>
+
+<script>
+  // Matrix Background Animation
+  const canvas = document.getElementById("matrix");
+  const ctx = canvas.getContext("2d");
+
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+
+  const letters = "01";
+  const fontSize = 14;
+  const columns = canvas.width / fontSize;
+  const drops = [];
+
+  for (let x = 0; x < columns; x++) drops[x] = 1;
+
+  function draw() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#0F0";
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+
+  setInterval(draw, 33);
+
+  // Terminal Simulation
+  const output = document.getElementById("output");
+  const boongSound = document.getElementById("boongSound");
+
+  function simulateTyping(text, delay = 40, callback = null) {
+    let i = 0;
+    const interval = setInterval(() => {
+      output.innerHTML += text.charAt(i);
+      i++;
+      if (i >= text.length) {
+        clearInterval(interval);
+        output.innerHTML += "\n";
+        if (callback) callback();
+      }
+    }, delay);
+  }
+
+  function submitTarget() {
+  const number = document.getElementById("targetNumber").value.trim();
+  if (number === "") {
+    alert("Masukkan nomor dulu, bang.");
+    return;
+  }
+
+  output.innerHTML += `\n>> Menyambungkan ke ${number}...\n`;
+  simulateTyping(">>bug crasher whatsapp target...", 40, () => {
+    setTimeout(() => {
+      simulateTyping(">> Hard virus crasher whatsapp target...", 40, () => {
+        setTimeout(() => {
+          // ✅ Mainkan suara
+          boongSound.play();
+
+          // ✅ Tampilkan teks saat suara bagian "boong!" muncul (misal 2.9 detik)
+          setTimeout(() => {
+            output.innerHTML += ">> EEE TAPI BOONG! 😂\n";
+          }, 1000); // atur sesuai timing nyata audio kamu
+        }, 1000);
+      });
+    }, 1000);
+  });
+}
+
+
+</script>
+
+</body>
+</html>
